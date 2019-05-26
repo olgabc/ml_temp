@@ -64,7 +64,16 @@ class BigCSVTable:
                 isinstance(df_minutes_delta, tuple) and len(df_minutes_delta) == 2
         ), "check minutes_delta"
 
-        df_dates_cols = [df_years, df_months, df_days, df_hours, df_dates, df_daysofweek, df_days_delta, df_minutes_delta]
+        df_dates_cols = [
+            df_years,
+            df_months,
+            df_days,
+            df_hours,
+            df_dates,
+            df_daysofweek,
+            df_days_delta,
+            df_minutes_delta
+        ]
         df_date_cols = []
 
         for df_dates_col in df_dates_cols:
@@ -137,4 +146,4 @@ class BigCSVTable:
                 df_minutes_delta[0]
             )] = self.df["{}-{}(MINUTES)".format(df_minutes_delta[1], df_minutes_delta[0])].dt.seconds / 60
 
-        #def
+        def group_
