@@ -38,7 +38,7 @@ class BigCSVTable:
             df_dates=None,
             df_daysofweek=None,
             df_days_delta=None,
-            df_time_delta=None,
+            df_minutes_delta=None,
           ):
         """
 
@@ -48,19 +48,19 @@ class BigCSVTable:
         :param df_hours:
         :param df_dates:
         :param df_daysofweek:
-        :param df_days_delta: tuple(earlier date, last_date)
-        :param df_time_delta: tuple(earlier date, last_date)
+        :param df_days_delta: tuple(first date, last_date)
+        :param df_minutes_delta: tuple(first time, last_time)
         :return:
         """
         assert df_days_delta is None or (
                 isinstance(df_days_delta, tuple) and len(df_days_delta) == 2
         ), "check days_delta"
 
-        assert df_time_delta is None or (
-                isinstance(df_time_delta, tuple) and len(df_time_delta) == 2
-        ), "check time_delta"
+        assert df_minutes_delta is None or (
+                isinstance(df_minutes_delta, tuple) and len(df_minutes_delta) == 2
+        ), "check minutes_delta"
 
-        df_dates_cols = [df_years, df_months, df_days, df_hours, df_dates, df_daysofweek, df_days_delta, df_time_delta]
+        df_dates_cols = [df_years, df_months, df_days, df_hours, df_dates, df_daysofweek, df_days_delta, df_minutes_delta]
         df_date_cols = []
 
         for df_dates_col in df_dates_cols:
@@ -101,7 +101,7 @@ class BigCSVTable:
                 self.df["{}_DAYOFWEEK".format(date_col)] = self.df["{}_DAYOFWEEK".format(date_col)] + 1
 
         if df_days_delta:
-            for num in (0,1):
+            for num in (0, 1):
                 try:
                     self.df["{}_DATE".format(df_days_delta[num])]
                 except KeyError:
@@ -122,9 +122,15 @@ class BigCSVTable:
                 df_days_delta[0]
             )].dt.days
         
-        if df_time_delta:
-            self.df["{}-{}(TIME)".format(df_time_delta[1], df_time_delta[0])] = self.df[df_time_delta[1]] - self.df[df_time_delta[0]]
-            self.df["{}-{}(TIME)".format(
-                df_time_delta[1],
-                df_time_delta[0]
-            )] = self.df["{}-{}(TIME)".format(df_time_delta[1], df_time_delta[0])].dt.seconds / 60
+        if df_minutes_delta:
+            self.df["{}-{}(MINUTES)".format(
+                df_minutes_delta[1],
+                df_minutes_delta[0]
+            )] = self.df[df_minutes_delta[1]] - self.df[df_minutes_delta[0]]
+
+            self.df["{}-{}(MINUTES)".format(
+                df_minutes_delta[1],
+                df_minutes_delta[0]
+            )] = self.df["{}-{}(MINUTES)".format(df_minutes_delta[1], df_minutes_delta[0])].dt.seconds / 60
+
+        def
