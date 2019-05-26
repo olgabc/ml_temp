@@ -4,30 +4,34 @@ import pandas as pd
 class BigCSVTable:
     def __init__(
             self,
-            file_names,
+            df=None,
+            file_names=None,
             dtype=None,
             usecols=None,
-            date_cols=None,
             encoding=None,
     ):
-        assert isinstance(file_names, list), "file_names is not a list"
+        if df is None:
 
-        self.date_cols = date_cols
-        dfs = []
+            assert isinstance(file_names, list), "file_names is not list"
 
-        for file_name in file_names:
-            df = pd.read_csv(
-                file_name,
-                sep=";",
-                dtype=dtype,
-                usecols=usecols,
-                encoding=encoding,
-            )
-            dfs.append(df)
+            dfs = []
 
-        self.df = pd.concat(dfs)
-        self._dates_formated = False
-        print(self.df)  # todelete
+            for file_name in file_names:
+                df = pd.read_csv(
+                    file_name,
+                    sep=";",
+                    dtype=dtype,
+                    usecols=usecols,
+                    encoding=encoding,
+                )
+                dfs.append(df)
+
+            self.df = pd.concat(dfs)
+            self._dates_formated = False
+
+        else:
+            assert isinstance(df, pd.DataFrame), "df is not DataFrame"
+            self.df = df
 
     def get_extra_dates(
             self,
@@ -133,4 +137,4 @@ class BigCSVTable:
                 df_minutes_delta[0]
             )] = self.df["{}-{}(MINUTES)".format(df_minutes_delta[1], df_minutes_delta[0])].dt.seconds / 60
 
-        def
+        #def
