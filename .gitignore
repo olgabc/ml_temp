@@ -1,0 +1,4 @@
+*pycache*
+local.cfg
+# *.xlsx
+*.ipynb_checkpoints*
